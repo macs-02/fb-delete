@@ -9,9 +9,9 @@
   "author": "Theron Spiegl",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^8.1.0",
-    "inquirer": "^5.2.0",
-    "puppeteer": "^2.1.1"
+    "dotenv": "^16.4.7",
+    "inquirer": "^12.3.2",
+    "puppeteer": "^24.1.0"
   },
   "repository": "https://github.com/spieglt/fb-delete"
 }

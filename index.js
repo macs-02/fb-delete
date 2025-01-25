@@ -1,7 +1,6 @@
 "use strict";
 
 const puppeteer = require("puppeteer");
-const {TimeoutError} = require('puppeteer/Errors');
 const p = require("./prompts");
 var page;
 
@@ -13,23 +12,20 @@ async function main() {
   const browser = await puppeteer.launch({
     headless: false,
     slowMo: 100,
-    args: [
-      "--no-sandbox",
-      "--lang=en-US;q=0.9,en;q=0.8",
-    ],
+    args: ["--no-sandbox", "--lang=en-US;q=0.9,en;q=0.8"],
   });
   page = await browser.newPage();
 
   await page.goto("https://mbasic.facebook.com/");
   try {
     const allResultsSelector = 'button[name="accept_only_essential"]';
-    await page.waitForSelector(allResultsSelector,  {timeout: 5000});
+    await page.waitForSelector(allResultsSelector, { timeout: 5000 });
     await page.click(allResultsSelector);
   } catch (e) {
-    if (e instanceof TimeoutError) {
+    if (e instanceof puppeteer.TimeoutError) {
       // do nothing
     } else {
-        throw e;
+      throw e;
     }
   }
   await page.$eval(
@@ -101,7 +97,7 @@ async function deletePosts() {
   // visit them all to delete content
   for (let i = 0; i < deleteLinks.length; i++) {
     // wait between clicks
-    await new Promise(r => setTimeout(r, DELAY));
+    await new Promise((r) => setTimeout(r, DELAY));
     await page.goto(deleteLinks[i], { waitUntil: "load", timeout: 0 });
   }
 }
@@ -121,7 +117,7 @@ async function deletePostsWithConfirm() {
   // visit them all to delete content
   for (let i = 0; i < deleteLinks.length; i++) {
     // wait between clicks
-    await new Promise(r => setTimeout(r, DELAY));
+    await new Promise((r) => setTimeout(r, DELAY));
     await page.goto(deleteLinks[i], { waitUntil: "load", timeout: 0 });
     await deletePosts();
   }
